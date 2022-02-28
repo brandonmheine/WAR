@@ -56,7 +56,7 @@ function game(playerOne, playerTwo) {
     return 'Player1'
   }
   else if (playerTwo > playerOne) {
-    console.log('Player 2 Wins!')
+    console.log('Player 2 Wins!');
     return 'Player2'
   }
   else {
@@ -102,9 +102,15 @@ function addToPile(player, card1, card2) {
 
 
 function listPileCards(pile) {
+
   const url = `https://deckofcardsapi.com/api/deck/${deckId}/pile/${pile}/list/`
 
-  fetch(url)
+  fetch(url,  {
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+    }
+  })
       .then(res => res.json())
       .then(data => {
         console.log(data);
