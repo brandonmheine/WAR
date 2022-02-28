@@ -26,7 +26,7 @@ function getFetch(){
   fetch(url)
       .then(res => res.json()) // parse response as JSON
       .then(data => {
-        console.log(data)
+        // console.log(data)
         if (data.remaining > 0) {
           const player1Card = data.cards[0]
           const player2Card = data.cards[1]
@@ -36,9 +36,9 @@ function getFetch(){
           const player2Value = getCardValue(player2Card);
           // console.log(player1Value, player2Value);
 
-        const winner = game(player1Value, player2Value);
-        addToPile(winner, player1Card.code, player2Card.code);
-        listPileCards(winner);
+          const winner = game(player1Value, player2Value);
+          addToPile(winner, player1Card.code, player2Card.code);
+          listPileCards(winner);
         }
         else {
           console.log("NO CARDS LEFT");
@@ -91,8 +91,8 @@ function addToPile(player, card1, card2) {
   fetch(url)
       .then(res => res.json())
       .then(data => {
-        console.log(data);
-
+        // console.log(data);
+        // console.log(data.length);
       })
 
       .catch(err => {
