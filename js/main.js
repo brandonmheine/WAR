@@ -27,16 +27,22 @@ function getFetch(){
       .then(res => res.json()) // parse response as JSON
       .then(data => {
         console.log(data)
-        const player1Card = data.cards[0]
-        const player2Card = data.cards[1]
-        document.querySelector('#player1').src = player1Card.image;
-        document.querySelector('#player2').src = player2Card.image;
-        const player1Value = getCardValue(player1Card);
-        const player2Value = getCardValue(player2Card);
-        console.log(player1Value, player2Value);
+        if (data.remaining > 0) {
+          const player1Card = data.cards[0]
+          const player2Card = data.cards[1]
+          document.querySelector('#player1').src = player1Card.image;
+          document.querySelector('#player2').src = player2Card.image;
+          const player1Value = getCardValue(player1Card);
+          const player2Value = getCardValue(player2Card);
+          // console.log(player1Value, player2Value);
 
         const winner = game(player1Value, player2Value);
         addToPile(winner, player1Card.code, player2Card.code);
+        listPileCards(winner);
+        }
+        else {
+          console.log("NO CARDS LEFT");
+        }
       })
 
       .catch(err => {
@@ -55,6 +61,7 @@ function game(playerOne, playerTwo) {
   }
   else {
     console.log('WAR!');
+    return 'War'
   }
 }
 
@@ -78,8 +85,24 @@ function getCardValue(card) {
 
 function addToPile(player, card1, card2) {
   const url = `https://deckofcardsapi.com/api/deck/${deckId}/pile/${player}/add/?cards=${card1},${card2}`;
-  console.log(url);
-  console.log(player, card1, card2);
+  // console.log(url);
+  // console.log(player, card1, card2);
+
+  fetch(url)
+      .then(res => res.json())
+      .then(data => {
+        console.log(data);
+
+      })
+
+      .catch(err => {
+        console.log(`error ${err}`)
+    });
+}
+
+
+function listPileCards(pile) {
+  const url = `https://deckofcardsapi.com/api/deck/${deckId}/pile/${pile}/list/`
 
   fetch(url)
       .then(res => res.json())
