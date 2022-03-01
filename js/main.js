@@ -1,5 +1,7 @@
 //Get the deck
 let deckId = '';
+const player1TextSpot = document.querySelector('#player1-text');
+const player2TextSpot = document.querySelector('#player2-text');
 
 
 
@@ -38,6 +40,7 @@ function getFetch(){
 
           const winner = game(player1Value, player2Value);
           addToPile(winner, player1Card.code, player2Card.code);
+
           listPileCards(winner);
         }
         else {
@@ -105,19 +108,24 @@ function listPileCards(pile) {
 
   const url = `https://deckofcardsapi.com/api/deck/${deckId}/pile/${pile}/list/`
 
-  fetch(url,  {
+  return fetch(url,  {
     headers: {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
     }
   })
-      .then(res => res.json())
-      .then(data => {
-        console.log(data);
+    .then((response) => { 
+      return response.json().then((data) => {
+          console.log(data);
+          return data;
+      }).catch((err) => {
+          console.log(err);
+      }) 
+  });
+}
 
-      })
 
-      .catch(err => {
-        console.log(`error ${err}`)
-    });
+function setText(textList) {
+  player1TextSpot.textContent = `Player 1 has ${textList[0]}`
+  player1TextSpot.textContent = `Player 1 has ${textList[1]}`
 }
